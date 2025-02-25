@@ -17,7 +17,7 @@ You are required to implement the following within these folders.
 2. **Technology**: You are free to choose any technology or framework (such as TensorFlow, PyTorch, etc.) to train your model.
 3. **Model Training**:
     - Preprocess the dataset as required for training.
-    - Train a model capable of reading 7-segment displays.
+    - Train a model (or tune a pre-trained model) capable of reading 7-segment displays.
     - Save the trained model for later inference.
     - Ensure proper validation, error handling, and logging during training.
 4. **Functionality**:
