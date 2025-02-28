@@ -1,6 +1,6 @@
-train: ../train/images
-val: ../valid/images
-test: ../test/images
+train: /Users/muathnazal/Desktop/segment_indigator.v4i.yolov8/train/images
+val: /Users/muathnazal/Desktop/segment_indigator.v4i.yolov8/valid/images
+test: /Users/muathnazal/Desktop/segment_indigator.v4i.yolov8/test/images
 
 nc: 10
 names: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
