@@ -12,3 +12,11 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+# dataset
+
+./ai/dataset
+
+# runs
+
+./ai/runs/**
