@@ -28,7 +28,7 @@ app.add_middleware(
 )
 
 # YOLOv8m model
-model_path = "ai/yolov8m_7_segment.pt"
+model_path = "yolov8m_7_segment.pt"
 model = YOLO(model_path)
 
 
