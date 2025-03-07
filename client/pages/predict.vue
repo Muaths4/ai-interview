@@ -1,9 +1,15 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import PredictionHistory from "@/components/PredictionHistory.vue";
+import type { PredictionEntryItem } from "~/components/PredictionEntry.vue";
+
+export interface PredictionResponse {
+    class: number;
+    confidence: number;
+}
 
 const selectedFile = ref<File | null>(null);
-const predictions = ref<{ image: string; result: string; accuracy: number }[]>([]);
+const predictionHistory = ref<PredictionEntryItem[]>([]);
 
 const handleFileUpload = (event: Event) => {
   const target = event.target as HTMLInputElement;
@@ -12,17 +18,48 @@ const handleFileUpload = (event: Event) => {
   }
 };
 
-const predict = () => {
-  if (selectedFile.value) {
-    console.log("Predicting for:", selectedFile.value.name);
+const predict = async () => {
+  if (!selectedFile.value) {
+    console.error("No file selected");
+    return;
+  }
 
-    // Simulated Prediction
-    const fakePrediction = {
-      image: URL.createObjectURL(selectedFile.value), // Temporary preview
-      result: "0066",
-      accuracy: 97,
-    };
-    predictions.value.unshift(fakePrediction);
+  const formData = new FormData();
+  formData.append("file", selectedFile.value);
+
+  try {
+    const response = await fetch("http://127.0.0.1:8000/predict/", {
+      method: "POST",
+      body: formData,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    const data: PredictionResponse[] = await response.json();
+    console.log("Full API Response:", data);
+
+    // Check for predictions in response
+    if (!data || data.length === 0) {
+      console.warn("No predictions found!");
+      return;
+    }
+
+    // Generate a temporary URL for the uploaded image
+    const imageUrl = URL.createObjectURL(selectedFile.value);
+
+    const finalResult = data.map(prediction => prediction.class)
+    const confidenceLevels = data.map(prediction => prediction.confidence)
+
+    const finalConfidence = confidenceLevels.reduce((accumulator, currentValue) => accumulator + currentValue, 0) / 4
+
+
+    const newPrediction: PredictionEntryItem = { image: imageUrl, result: `${finalResult.join("")}`, confidence: parseFloat(((finalConfidence) * 100).toFixed(2)) }
+
+    // Add new predictions to the top of the list
+    predictionHistory.value.unshift(newPrediction);
+  } catch (error) {
+    console.error("Error predicting:", error);
   }
 };
 </script>
@@ -34,7 +71,7 @@ const predict = () => {
 
       <div class="border border-gray-600 p-4 rounded-lg flex justify-between items-center">
         <label class="text-gray-300">Insert image to predict</label>
-        <input type="file" class="hidden" id="fileInput" @change="handleFileUpload" />
+        <input type="file" class="hidden" id="fileInput" @change="handleFileUpload" accept="image/*" />
         <label for="fileInput" class="cursor-pointer bg-gray-700 text-gray-300 px-4 py-2 rounded">
           {{ selectedFile ? selectedFile.name : "File input" }}
         </label>
@@ -44,8 +81,7 @@ const predict = () => {
         <UButton color="red" variant="solid" @click="predict">Predict</UButton>
       </div>
     </div>
-
     <!-- Using the PredictionHistory Component -->
-    <PredictionHistory v-if="predictions.length > 0" :predictions="predictions" />
+    <PredictionHistory v-if="predictionHistory.length > 0 " :predictions="predictionHistory" />
   </div>
 </template>

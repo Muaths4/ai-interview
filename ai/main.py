@@ -16,6 +16,17 @@ from PIL import Image
 # FastAPI app
 app = FastAPI()
 
+from fastapi.middleware.cors import CORSMiddleware
+
+# Add CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Allows all origins
+    allow_credentials=True,
+    allow_methods=["*"],  # Allows all methods
+    allow_headers=["*"],  # Allows all headers
+)
+
 # YOLOv8m model
 model_path = "ai/yolov8m_7_segment.pt"
 model = YOLO(model_path)
@@ -49,7 +60,6 @@ async def predict(file: UploadFile = File(...)):
                 "class": int(box.cls[0])
             })
     predictions.sort(key = lambda x: x["x1"])
-    return {"predictions\n": 
-            predictions}
+    return predictions
 
 # to run the server use this command: fastapi dev ai/main.py
