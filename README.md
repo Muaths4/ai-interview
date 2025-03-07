@@ -1,69 +1,91 @@
-# AI Development Interview Test
+# 7-Segment Display Digit Recognition
 
 ## Introduction
-Welcome to the AI development interview test! This task is designed to assess your skills in artificial intelligence, machine learning, and frontend development. You will create a 7-segment display reader model and a user interface that interacts with this model. Follow the instructions carefully and ensure to demonstrate best practices in coding, structure, and version control using Git.
+This project is a prediction app that utilizes AI computer vision to recognize digits on a 7-segment display. The app is built using a FastAPI backend and a Nuxt 3 frontend. The backend receives images of 7-segment displays, processes them using a trained AI model, and sends the predictions to the frontend. The frontend displays the prediction and maintains a history of all previous predictions.
 
 ## Project Structure
-You will find two main folders in the repository:
-- `ai`
-- `client`
+The project is divided into two main folders:
+- **ai**: Contains the AI model and FastAPI backend.
+- **client**: Contains the Nuxt 3 frontend.
 
-You are required to implement the following within these folders.
+## AI Model
+The AI model is trained on a dataset of images of 7-segment displays and is capable of recognizing digits (0-9). The model is implemented using the Ultralytics YOLOv8 library.
 
-## Task Description
+## FastAPI Backend
+The FastAPI backend:
+- Receives images of 7-segment displays.
+- Processes them using the AI model.
+- Sends the predictions to the frontend.
+- Is implemented using the FastAPI framework and is deployed on a local server.
 
-### AI Model Project
-1. **Dataset**: Use the [7-segment display dataset](https://www.kaggle.com/datasets/cramatsu/7-segment-display-yolov8) from Kaggle.
-2. **Technology**: You are free to choose any technology or framework (such as TensorFlow, PyTorch, etc.) to train your model.
-3. **Model Training**:
-    - Preprocess the dataset as required for training.
-    - Train a model (or tune a pre-trained model) capable of reading 7-segment displays.
-    - Save the trained model for later inference.
-    - Ensure proper validation, error handling, and logging during training.
-4. **Functionality**:
-    - Provide a script or API to load the model and perform inference on new images.
-    - Implement a way to handle model retraining if needed.
-5. **Best Practices**: Follow best practices for AI model training, including data augmentation, proper model evaluation, and optimization.
+## Nuxt 3 Frontend
+The Nuxt 3 frontend:
+- Displays the prediction.
+- Maintains a history of all previous predictions.
+- Is implemented using the Nuxt 3 framework and is deployed on a local server.
 
-### Client Project
-1. **Technology**: Use [Nuxt 3](https://nuxt.com/docs/getting-started/installation) for the frontend application.
-2. **Functionality**:
-    - Create a user interface to upload images of 7-segment displays.
-    - Display the extracted values from the uploaded images.
-    - Maintain a history of the current session where users can view the images and the extracted results.
-    - Integrate with the AI model to perform the inference.
-3. **UI/UX**: Ensure the interface is user-friendly and visually appealing.
+## Features
+- **Image Upload**: Users can upload images of 7-segment displays to the app.
+- **Prediction**: The app displays the predicted digit on the 7-segment display.
+- **Prediction History**: The app maintains a history of all previous predictions.
 
-## Git Workflow
-1. **Forking**: Fork this repository to your own GitHub account.
-2. **Branching**: Use a feature-branch workflow. Create branches for different functionalities (e.g., `feature/ai-model-setup`, `feature/client-setup`).
-3. **Commits**: Make frequent, clear, and descriptive commits.
-4. **Pull Requests**: Once you've completed a feature, create a pull request to merge it into your main branch. Include descriptive messages with your pull requests.
-5. **Git Ignore**: Make sure only the necessary files are saved to the repository. Make proper use of gitignore. 
+## Requirements
+- Python 3.9+
+- FastAPI
+- Ultralytics YOLOv8
+- Nuxt 3
+- Node.js 14+
 
-## Additional Requirements
-- **Documentation**: Add comments to your code where necessary and provide a brief documentation on how to set up and run the project.
-- **Creativity**: Feel free to add any additional features or improvements that you think would make this project stand out.
-- **BONUS: Testing**: Implement unit tests for the client using a framework of your choice.
+## Installation
+1. Clone the repository to your local machine:
+   ```bash
+   git clone <repository-url>
+   cd <repository-folder>
+   ```
+2. Install the required dependencies:
+   ```bash
+   cd client && npm i
+   ```
+3. Start the FastAPI backend:
+   ```bash
+   cd ai && fastapi dev main.py
+   ```
+4. Start the Nuxt 3 frontend:
+   ```bash
+   cd client && npm run dev
+   ```
 
-## Submission
-1. Ensure your project is well-documented.
-2. Share the link to your forked repository with us.
-3. Be prepared to discuss your code, decisions, and any challenges you faced during the development in a follow-up interview.
+## Usage
+1. Open the app in your web browser at `http://localhost:3000`
+2. Upload an image of a 7-segment display.
+3. The app will display the predicted digit.
+4. The app will maintain a history of all previous predictions.
 
-## Evaluation Criteria
-- Adherence to best practices and coding standards.
-- Clean and maintainable code.
-- Proper use of git and version control best practices.
-- User experience and design of the frontend application.
-- Effectiveness and accuracy of the AI model.
-- Creativity and any additional features implemented.
-- Documentation and code comments.
+## API Documentation
+The FastAPI backend provides a RESTful API for interacting with the app. The API is documented using Swagger and can be accessed at:
+- `http://localhost:8000/docs`
 
-## Getting Started
-1. Clone your forked repository to your local machine.
-2. Set up the environment for your AI model and run the training scripts.
-3. Implement the required functionalities in both the `ai` and `client` folders.
-4. Submit your work as described in the submission section.
+## Commit Messages
+Commit messages follow the conventional commit message format.
 
-We look forward to seeing your solution!
+## Branching Strategy
+The project uses a feature-branch workflow. New features are developed in separate branches and merged into the main branch when complete.
+
+To check more over my workflow and the train of thoughts check out the diagrams i have drawn out while planning this small project: [Figjam Board](https://www.figma.com/board/TkoeqbAxCUhr7QwW1FrzCS/WorkFlow?node-id=0-1&t=1ofNXRnW7ehpLy9R-1)
+
+## API Endpoints
+The FastAPI backend provides the following API endpoints:
+- `POST /predict`: Receives an image of a 7-segment display and returns the prediction consisting of x and y coordinates, class, and confidence level for each digit.
+
+## Model Training
+The AI model is trained on a dataset of images of 7-segment displays using the Ultralytics YOLOv8 library.
+
+## Model Evaluation
+The AI model is evaluated using metrics such as mAP50, mAP50-95.
+
+## Model Deployment
+The AI model is deployed on a local server using the FastAPI framework.
+
+## Future Work
+- Improve the accuracy of the AI model.
+- Add support for recognizing multiple digits on a single 7-segment display.
